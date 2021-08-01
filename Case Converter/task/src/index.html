@@ -7,15 +7,16 @@
 </head>
 <body>
     <div class="title">Case Converter</div>
-    <div>
+    <div class="text">
         <label for="textarea"></label>
-        <textarea id="textarea"></textarea>
+        <textarea id="textarea" onkeyup="adjustHeight(this)"></textarea>
     </div>
-    <div>
+    <div class="buttons">
         <button id="upper-case" onclick="upperCase()">Upper Case</button>
         <button id="lower-case" onclick="lowerCase()">Lower Case</button>
         <button id="proper-case" onclick="properCase()">Proper Case</button>
         <button id="sentence-case" onclick="sentenceCase()">Sentence Case</button>
+        <button id="save-text-file" onclick="saveTextFile()">Save Text File</button>
     </div>
     <script>
         const element = document.getElementById("textarea");
@@ -47,6 +48,26 @@
 
         const sentenceCase = () => {
             element.value = element.value.toSentenceCase();
+        }
+
+        const download = (filename, text) => {
+            let element = document.createElement('a');
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        const saveTextFile = () => {
+            const textFileName = "text.txt";
+            download(textFileName, element.value);
+        }
+
+        const adjustHeight = (element) => {
+            element.style.height = "25px";
+            element.style.height = (element.scrollHeight) + "px";
         }
     </script>
 </body>
